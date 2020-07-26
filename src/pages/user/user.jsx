@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Table, Button, message, Switch, Input, Row, Col } from 'antd'
+import { Card, Table, Button, message, Modal, Input, Row, Col } from 'antd'
 import AddForm from "./add-form";
-import {PlusCircleFilled} from '@ant-design/icons'
-import { reqUser, reqChangeState} from '@/http/user'
+import UpdateForm from './update-form'
+import AssignForm from './assign-form'
+import { PlusCircleFilled } from '@ant-design/icons'
+import { reqUser, reqChangeState, reqDelUser } from '@/http/user'
+import getColumns  from './config/columns.jsx'
 class User extends Component {
   constructor(props) {
     super(props);
@@ -15,42 +18,8 @@ class User extends Component {
       },
       loading:false,
       dataSource:[],
-      columns :[
-        {
-          title: '用户名称',
-          dataIndex: 'username',
-          key: 'username'
-        },
-        {
-          title: '角色',
-          dataIndex: 'role_name',
-          key: 'role_name',
-        },
-        {
-          title: '手机号码',
-          dataIndex: 'mobile',
-          key: 'mobile',
-        },
-        {
-          title: '邮箱',
-          dataIndex: 'email',
-          key: 'email',
-        },
-        {
-          title: '状态',
-          dataIndex: 'mg_state',
-          key: 'mg_state',
-          render:(text,scope) =>{
-            return (<Switch checked={scope.mg_state} onChange={() => { this.handleSwitchChange(scope)}}></Switch>)
-          }
-        },
-        {
-          title: '操作',
-          render: () => {
-            return <Button>删除</Button>
-          }
-        },
-      ]
+      editRow: {},//当前编辑的行
+      assignRow:{},//当前分配角色的行
     }
   }
   componentDidMount() {
@@ -74,7 +43,6 @@ class User extends Component {
     if (res.meta.status !== 200) {
       return message.error('请求失败')
     }
-    console.log(res);
     
     query.total = res.data.total
     
@@ -90,9 +58,36 @@ class User extends Component {
       formType:'add'
     })
   }
+  // 编辑
+  editRow = (row) => {
+    this.updateForm.setFieldsValue(row)
+    this.setState({
+      formType: 'update',
+      editRow:row
+    })
+  }
+  // 删除
+  delRow(row) {
+    Modal.confirm({
+      title: '确认删除该用户吗',
+      onOk:async () => {
+        const { data: res } = await reqDelUser(row.id)
+        if (res.meta.status !== 200) return message.error('删除失败')
+        message.success('删除成功')
+        this.reqUser()
+      }
+    })
+  }
+  // 分配角色
+  assignRole(row) {
+    this.setState({
+      assignRow: row,
+      formType:'assign'
+    })
+  }
   // 关闭添加用户对话框
   closeForm = (formType) => {
-    this.setState({formType})
+    this.setState({ formType })
   }
   paginationChange=(current)=> {
     const { query } = this.state
@@ -110,22 +105,46 @@ class User extends Component {
     })
     this.reqUser()
   }
+  // 搜索用户
+  handleInputSearch = (value) => {
+    const { query } = this.state
+    query.query = value
+    this.setState({
+      query
+    })
+    this.reqUser()
+  }
   render() {
-    const { columns, dataSource, loading, query, formType } = this.state
+    const { dataSource, loading, query, formType, editRow, assignRow } = this.state
     const cardTitle = (
       <Row>
         <Col span='10'>
-          <Input.Search placeholder='请输入搜索内容' inputMode='search' enterButton />
+          <Input.Search name='query' placeholder='请输入搜索内容' inputMode='search' enterButton onSearch={this.handleInputSearch}/>
         </Col>
       </Row>
     )
     const cartExtra = (<Button type='primary' onClick={this.showAddForm} icon={<PlusCircleFilled/>}>添加用户</Button>)
     return (
       <Card title={cardTitle} extra={cartExtra}>
-        <AddForm formType={formType} closeForm={this.closeForm} getList={this.reqUser}></AddForm>
+        {/* 添加用户 */}
+        <AddForm formType={formType} closeForm={this.closeForm} getList={this.reqUser} />
+        {/* 编辑用户 */}
+        <UpdateForm
+          formType={formType}
+          closeForm={this.closeForm}
+          setForm={(form) => { this.updateForm = form }}
+          getList={this.reqUser}
+          editRow={editRow} />
+        {/* 分配角色 */}
+        <AssignForm
+          formType={formType}
+          closeForm={this.closeForm}
+          assignRow={assignRow}
+          getList={this.reqUser}
+        />
         <Table
           dataSource={dataSource}
-          columns={columns} bordered
+          columns={getColumns(this)} bordered
           rowKey='id'
           size='small'
           loading={loading}
@@ -133,6 +152,7 @@ class User extends Component {
             total: query.total,
             showQuickJumper:true,
             showSizeChanger: true,
+            showTotal:total=>`共${total}条`,
             onChange: this.paginationChange,
             onShowSizeChange:this.sizeChange
           }}

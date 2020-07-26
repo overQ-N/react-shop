@@ -12,7 +12,7 @@ const AddForm = (props) => {
   }
   const onFinish = async (values) => {
     const { data: res } = await reqAddUser(values)
-    if (res.meta.status !== 201) return message.info(res.meta.msg)
+    if (res.meta.status !== 201) return 
     props.getList()
     props.closeForm('close')
     message.success('添加成功')
