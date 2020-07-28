@@ -7,6 +7,7 @@ import LeftNav from '@/components/left-nav'
 import Category from '@/pages/products/category'
 import Param from '@/pages/products/param'
 import Product from '@/pages/products/product'
+import AddProduct from '@/pages/products/add'
   
 import User from '@/pages/user/user'
 import Home from '@/pages/home'
@@ -78,7 +79,8 @@ class Admin extends Component {
                 <Route path='/role' component={Role}></Route>
                 <Route path='/right' component={Right}></Route>
                 <Route path='/param' component={Param}></Route>
-                <Route path='/product' component={Product}></Route>
+                <Route path='/product' component={Product} exact></Route>
+                <Route path='/product/add' component={AddProduct}></Route>
                 <Route path='/order' component={Order}></Route>
                 <Route path='/report' component={Report}></Route>
                 <Redirect to='/home'></Redirect>

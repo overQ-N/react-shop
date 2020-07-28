@@ -17,7 +17,11 @@ module.exports = {
   ],
   webpack: {
     alias: {
-      '@': resolve('./src')
+      '@': resolve('./src'),
+      '@c': resolve('./src/components'),
+      'http': resolve('./src/http'),
+      'pages': resolve('./src/pages'),
+      'utils':resolve('./src/utils')
     }
   },
   devServer: {
