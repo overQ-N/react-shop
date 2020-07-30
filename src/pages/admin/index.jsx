@@ -4,7 +4,7 @@ import memory from '@/utils/memory'
 import { Redirect, Route, Switch, withRouter, Link } from 'react-router-dom';
 import Header from '@/components/Header'
 import LeftNav from '@/components/left-nav'
-import Category from '@/pages/products/category'
+import Category from '@/pages/products/category/category'
 import Param from '@/pages/products/param'
 import Product from '@/pages/products/product'
 import AddProduct from '@/pages/products/add'

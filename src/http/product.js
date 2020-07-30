@@ -9,3 +9,12 @@ export const removeGoodsById = (id)=>request.delete(`/goods/${id}`)
 export const getCategories = (params) => request.get('/categories',{params})
 // 添加商品
 export const addGood = (data)=>request.post('/goods',data)
+
+// 添加分类
+export const addCategory = (data) => request.post('/categories',data)
+
+// 根据id查找分类
+export const findCateById =(id)=>request.get(`/categories/${id}`)
+
+// 删除分类
+export const removeCateById = (id) => request.delete(`/categories/${id}`)

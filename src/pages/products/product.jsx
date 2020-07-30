@@ -18,7 +18,8 @@ class Product extends Component {
       },
       goods: [],
       columns: [],
-      searchType:0
+      searchType: 0,
+      loading:false
     }
   }
   componentDidMount() {
@@ -27,6 +28,7 @@ class Product extends Component {
     this.setState({ columns })
   }
   _reqGoods = async () => {
+    this.setState({loading:true})
     const { data: res } = await reqGoods(this.state.query)
     if (res.meta.status !== 200) return
     const { query } = this.state
@@ -34,7 +36,8 @@ class Product extends Component {
     query.total = res.data.total
     this.setState({
       query,
-      goods
+      goods,
+      loading:false
     })
   }
   pagination = () => {
@@ -107,7 +110,7 @@ class Product extends Component {
     this._reqGoods()
   }
   render() {
-    const { goods, columns, searchType} = this.state
+    const { goods, columns, searchType, loading} = this.state
     const cartTitle = (
       <Row>
         <Col span={10}>
@@ -119,12 +122,13 @@ class Product extends Component {
         </Col>
       </Row>)
     return (
-      <Card title={cartTitle} extra={(<Button type='primary' icon={<PlusOutlined />}><Link to='/product/add' style={{ color: '#fff' }}>添加商品</Link></Button>)}>
+      <Card title={cartTitle} extra={(<Link to='/product/add' style={{ color: '#fff' }}><Button type='primary' icon={<PlusOutlined />}>添加商品</Button></Link>)}>
         <Table
           dataSource={goods}
           columns={columns}
           rowKey='goods_id'
           size='small'
+          loading={loading}
           bordered
           pagination={this.pagination()}
         />
