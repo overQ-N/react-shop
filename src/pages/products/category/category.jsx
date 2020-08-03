@@ -13,8 +13,8 @@ class Category extends Component {
      }
   }
   componentDidMount() {
-    // 获取一级分类列表
-    this.getList(1)
+    // 获取分类列表
+    this.getList(3)
   }
   // 获取商品列表
   getList = async (type) => {
@@ -59,9 +59,13 @@ class Category extends Component {
     const { data: res } = await findCateById(id)
     if (res.meta.status !== 200) return
     this.setState({
-      categories: [res.data],
+      // 如果id存在，则获取该id的分类信息 否则获取全部分类
+      categories: id?[res.data]:res.data,
       tableLoading:false
     })
+  }
+  setRowKey = (record) => {
+    return record.cat_id
   }
   render() { 
     const { categories, tableLoading, modalType } = this.state
@@ -75,7 +79,8 @@ class Category extends Component {
         <Table
           loading={tableLoading}
           dataSource={categories}
-          rowKey='cat_id'
+          rowKey={this.setRowKey}
+          bordered
           columns={getColumns(this)}
           size='small'
         />

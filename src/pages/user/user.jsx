@@ -29,12 +29,19 @@ class User extends Component {
     const { dataSource } = this.state
     const item = dataSource.find(item => item.id === scope.id)
     item.mg_state = !scope.mg_state
-    const { data: res } = await reqChangeState(item.id, item.mg_state)
-    if (res.meta.status !== 200) return message.error('请求失败')
-    message.success('操作成功')
     this.setState({
       item
     })
+    const { data: res } = await reqChangeState(item.id, item.mg_state)
+    if (res.meta.status !== 200) {
+      // 如果请求失败将状态改成原来的状态
+      item.mg_state = !item.mg_state
+      this.setState({
+        item
+      })
+      return message.error('请求失败')
+    }
+    message.success('操作成功')
   }
   reqUser = async () => {
     const query = this.state.query

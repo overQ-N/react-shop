@@ -20,9 +20,7 @@ class Login extends Component {
         storage.set('user',res.data)
         this.props.history.replace('/')
         message.success('登录成功')
-      } else {
-        message.error(res.meta.msg)
-      }
+      } 
     })
   }
   checkUserName = (_, value) => {

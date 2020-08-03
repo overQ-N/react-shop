@@ -1,5 +1,18 @@
 @import '~antd/dist/antd.less';
 
+// 重写antd的样式
+.content{
+  .ant-card{
+    max-height: 84vh;
+    overflow: auto;
+    .ant-card-head{
+      background:#0f1c3e;
+    }
+  }
+  .ant-card-bordered{
+    border: none;
+  }
+}
 .cell-btns{
     position: relative;
     left: -9px;

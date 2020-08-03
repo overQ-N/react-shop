@@ -13,7 +13,7 @@ import User from '@/pages/user/user'
 import Home from '@/pages/home'
 
 import Role from '@/pages/rights/role'
-import Right from '@/pages/rights/right'
+import Right from '@/pages/rights/right/right'
 
 import Order from '@/pages/orders/order'
 import Report from '@/pages/reports/report'
@@ -63,7 +63,7 @@ class Admin extends Component {
     return (
       <div className='container'>
         <Layout>
-          <Sider>
+          <Sider style={{ background:'#19233e'}}>
             <LeftNav />
           </Sider>
           <Layout>
@@ -86,7 +86,7 @@ class Admin extends Component {
                 <Redirect to='/home'></Redirect>
               </Switch>
             </Content>
-            <Footer>footer</Footer>
+            <Footer style={{ background:'#0b1530'}}>footer</Footer>
           </Layout>
         </Layout>
       </div>

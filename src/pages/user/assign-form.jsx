@@ -67,7 +67,7 @@ class AssignForm extends React.Component {
             <Input value={this.props.assignRow.role_name} disabled></Input>
           </Item>
           <Item label='分配新角色' name='rid' rules={[{required:true}]}>
-            <Select>
+            <Select showSearch>
               {roles.map(item => <Option key={item.id} value={item.id}>{item.roleName}</Option>)}
             </Select>
           </Item>

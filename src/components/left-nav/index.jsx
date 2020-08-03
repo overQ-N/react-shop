@@ -50,7 +50,7 @@ class LeftNav extends Component {
           <img src={logo} alt="" />
           <h2>后台管理系统</h2>
         </header>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={[path]} defaultOpenKeys={[openKey]}>
+        <Menu theme="dark" style={{ background:'#19233e'}} mode="inline" defaultSelectedKeys={[path]} defaultOpenKeys={[openKey]}>
           {
             this.state.menuNodes
           }
