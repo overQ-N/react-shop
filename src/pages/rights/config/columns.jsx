@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from 'antd';
+import { Tag, Button } from 'antd';
 export const rightColumns = (_this) => [
   {
     dataIndex: 'index',
@@ -32,5 +32,34 @@ export const rightColumns = (_this) => [
       }
       return <Tag color={color}>{level}</Tag>
     }
+  }
+]
+
+// 角色表格column配置
+export const roleColumns = (_this) => [
+  
+  {
+    dataIndex: 'index',
+    title:'序号',
+    render:(title,row,index)=>index+1
+  },
+  {
+    dataIndex: 'roleName',
+    title:'角色名称'
+  },
+  {
+    dataIndex: 'roleDesc',
+    title: '角色描述',
+  },
+  {
+    dataIndex: 'action',
+    title: "操作",
+    render: (title, row) => (
+      <div className='cell-btns'>
+        <Button onClick={()=>_this.editRow(row)} type='link'>【编辑】</Button>
+        <Button onClick={() => { _this.delRow(row) }} type='link'>【删除】</Button>
+        <Button onClick={() => { _this.assignRow(row) }} type='link'>【分配权限】</Button>
+      </div>
+    )
   }
 ]

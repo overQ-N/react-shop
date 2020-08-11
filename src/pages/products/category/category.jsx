@@ -3,6 +3,7 @@ import { Card, Button, Table ,Input, Row,Col, message, Modal} from 'antd'
 import { getCategories, findCateById, removeCateById } from 'http/product'
 import getColumns from '../config/categoryColumns'
 import AddForm from './add-form'
+import EditForm from './edit-form'
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,9 @@ class Category extends Component {
   }
   // 编辑
   editRow=(row)=> {
-    console.log(111111)
+    this.setState({
+      modalType:'edit'
+    })
   }
   // 删除
   delRow = (row) => {
@@ -85,7 +88,10 @@ class Category extends Component {
           size='small'
         />
         {/* 添加分类 */}
-        <AddForm modalType={modalType} closeForm={this.closeForm}/>
+        <AddForm modalType={modalType} closeForm={this.closeForm} />
+        
+        {/* 编辑分类 */}
+        <EditForm modalType={modalType} closeForm={this.closeForm}></EditForm>
       </Card>
      );
   }

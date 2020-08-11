@@ -124,13 +124,13 @@ const Add = (props) => {
   ]
   return ( 
     <div>
-      <Steps size='small' current={current} onChange={handleStepChange}>
-        <Step title='基本信息'></Step>
-        <Step title='商品参数'></Step>
-        <Step title='商品属性'></Step>
-        <Step title='商品图片'></Step>
-        <Step title='商品内容'></Step>
-        <Step title='完成'></Step>
+      <Steps size='small' current={current} onChange={handleStepChange} className='steps'>
+        <Step className='step-item' title='基本信息'></Step>
+        <Step className='step-item' title='商品参数'></Step>
+        <Step className='step-item' title='商品属性'></Step>
+        <Step className='step-item' title='商品图片'></Step>
+        <Step className='step-item' title='商品内容'></Step>
+        <Step className='step-item' title='完成'></Step>
       </Steps>
       <div className='steps-content'>
         {steps[current].content}

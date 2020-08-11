@@ -12,7 +12,7 @@ import AddProduct from '@/pages/products/add'
 import User from '@/pages/user/user'
 import Home from '@/pages/home'
 
-import Role from '@/pages/rights/role'
+import Role from '@/pages/rights/role/role'
 import Right from '@/pages/rights/right/right'
 
 import Order from '@/pages/orders/order'
